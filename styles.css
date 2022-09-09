@@ -1,0 +1,24 @@
+#game-grid {
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: wrap;
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    height: 30px;
+    /* border: 2px solid red; */
+    width: 100%;
+}
+
+.column {
+    width: 30px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+.snake {
+    background-color: red;
+}
