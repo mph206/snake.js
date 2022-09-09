@@ -1,22 +1,33 @@
 import Coordinate from './coordinate.js';
 import { findDiv } from './utils.js';
+import Grid from './grid.js';
 
 export default class Snake {
-    foodCoordinates;
-    constructor(gridSize) {
-        this.gridSize = gridSize;
+    axis;
+    increment;
+    snakeBody;
+    headCoordinates;
+    
+    constructor(grid) {
+        this.grid = grid;
         this.start();
     }
 
+    get tailCoordinate() {
+        return this.snakeBody[this.snakeBody.length - 1];
+    }
+
     async start() {
-        this.headCoordinates = new Coordinate(this.gridSize / 2, this.gridSize / 2);
+        this.headCoordinates = new Coordinate(this.grid.gridSize / 2, this.grid.gridSize / 2);
+        this.snakeBody = [this.headCoordinates];
         findDiv(this.headCoordinates).setAttribute('class', 'column snake');
         this.setDirection("x", 1);
         
-        while (this.headCoordinates.x < this.gridSize - 1 && this.headCoordinates.y < this.gridSize - 1 
-                && this.headCoordinates.x > 0 && this.headCoordinates.y > 0) {            
+        while (this.headCoordinates.x < this.grid.gridSize && this.headCoordinates.y < this.grid.gridSize 
+                && this.headCoordinates.x >= 0 && this.headCoordinates.y >= 0) {            
             this.moveSnake();
-            await new Promise((_) => setTimeout(_, 500));
+            // console.log(this.snakeBody);
+            await new Promise((_) => setTimeout(_, 200));
         }
     }
 
@@ -26,20 +37,38 @@ export default class Snake {
     }
 
     moveSnake() {
-        const previousSnakeHead = findDiv(this.headCoordinates);
+        const tailEnd = findDiv(this.snakeBody[this.snakeBody.length - 1]);
+        console.log(tailEnd);
         this.headCoordinates[this.axis] += this.increment;
         findDiv(this.headCoordinates).setAttribute('class', 'column snake');
-        previousSnakeHead.setAttribute('class', 'column');
+        tailEnd.setAttribute('class', 'column');
         this.checkForFoodCollision();
     }
 
-    notifyFoodCoordinates(foodCoordinates) {
-        this.foodCoordinates = foodCoordinates;
+    checkForFoodCollision() {
+        if (JSON.stringify(this.headCoordinates) === JSON.stringify(this.grid.foodCoordinates)) {
+            this.eatFood();
+            this.grid.generateFood();
+        }
     }
 
-    checkForFoodCollision() {
-        if (JSON.stringify(this.headCoordinates) === JSON.stringify(this.foodCoordinates)) {
-            console.log('collision');
+    eatFood() {
+        this.snakeBody.push(this.calculateNewTail());
+        console.log(this.snakeBody);
+        findDiv(this.tailCoordinate).setAttribute('class', 'column snake');
+    }
+
+    calculateNewTail() {
+        let xCoord;
+        let yCoord;
+
+        if (this.axis === "x") {
+            xCoord = -this.increment;
+            yCoord = 0;
+        } else if (this.axis === "y") {
+            xCoord = 0;
+            yCoord = -this.increment;
         }
+        return new Coordinate(xCoord, yCoord);
     }
 }

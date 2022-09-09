@@ -3,30 +3,30 @@ import Snake from "./snake.js";
 
 const gridSize = 20;
 const grid = new Grid(gridSize);
-const snake = new Snake(gridSize);
 
 // Event listeners
+// TODO disable reversing
 document.addEventListener("keydown", async (event) => {
     switch(event.key) {
         case "ArrowUp":
-            snake.setDirection("y", -1);
+            grid.snake.setDirection("y", -1);
             break;  
         case "ArrowDown":
-            snake.setDirection("y", 1);
+            grid.snake.setDirection("y", 1);
             break;  
         case "ArrowLeft":
-            snake.setDirection("x", -1);
+            grid.snake.setDirection("x", -1);
             break; 
         case "ArrowRight":
-            snake.setDirection("x", 1);
+            grid.snake.setDirection("x", 1);
             break;
     }
 });
 
-grid.generateFood(snake.headCoordinates);
+grid.generateFood();
 
 // Grow snake when food eaten
-snake.notifyFoodCoordinates(grid.foodCoordinates);
+
 
 // Check for collissssssions with self
 
