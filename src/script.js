@@ -1,26 +1,9 @@
+import Grid from "./grid.js";
 import Snake from "./snake.js";
 
-// Create grid
-const canvas = document.querySelector('#game-grid');
 const gridSize = 20;
-const grid = [];
-let snake = new Snake(gridSize);
-for (let i = 0; i < gridSize; i++) {
-    grid[i] = [];
-    const row = document.createElement("div");
-    row.setAttribute("id", `row-${i}`);
-    row.setAttribute("class", `row`);
-    canvas.appendChild(row);
-    for (let j = 0; j < gridSize; j++) {
-        grid[i][j] = j;
-        const column = document.createElement("div");
-        column.setAttribute("id", `column-${i}`);
-        column.setAttribute("class", `column`);
-        row.appendChild(column);
-    }    
-}
-
-snake.start();
+const grid = new Grid(gridSize);
+const snake = new Snake(gridSize);
 
 // Event listeners
 document.addEventListener("keydown", async (event) => {
@@ -41,6 +24,7 @@ document.addEventListener("keydown", async (event) => {
 });
 
 // Randomly generate food
+grid.generateFood(snake.headCoordinates);
 
 // Grow snake when food eaten
 

@@ -1,15 +1,17 @@
 import Coordinate from './coordinate.js';
+import { findDiv } from './utils.js';
 
 const timer = ms => new Promise(res => setTimeout(res, ms));
 
 export default class Snake {
     constructor(gridSize) {
         this.gridSize = gridSize;
+        this.start();
     }
 
     async start() {
         this.headCoordinates = new Coordinate(this.gridSize / 2, this.gridSize / 2);
-        this.findDiv(this.headCoordinates).setAttribute('class', 'column snake');
+        findDiv(this.headCoordinates).setAttribute('class', 'column snake');
         this.setDirection("x", 1);
         
         while (this.headCoordinates.x < this.gridSize - 1 && this.headCoordinates.y < this.gridSize - 1 
@@ -19,19 +21,19 @@ export default class Snake {
         }
     }
 
-    findDiv (coordinate) {
-        return document.getElementsByClassName('row')[coordinate.y].getElementsByClassName('column')[coordinate.x];
-    } 
-
     setDirection (axis, increment) {
         this.axis = axis;
         this.increment = increment;
     }
 
     moveSnake() {
-        const previousSnakeHead = this.findDiv(this.headCoordinates);
+        const previousSnakeHead = findDiv(this.headCoordinates);
         this.headCoordinates[this.axis] += this.increment;
-        this.findDiv(this.headCoordinates).setAttribute('class', 'column snake');
+        findDiv(this.headCoordinates).setAttribute('class', 'column snake');
         previousSnakeHead.setAttribute('class', 'column');
+    }
+
+    eatFood() {
+        
     }
 }
