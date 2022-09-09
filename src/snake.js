@@ -1,9 +1,8 @@
 import Coordinate from './coordinate.js';
 import { findDiv } from './utils.js';
 
-const timer = ms => new Promise(res => setTimeout(res, ms));
-
 export default class Snake {
+    foodCoordinates;
     constructor(gridSize) {
         this.gridSize = gridSize;
         this.start();
@@ -17,7 +16,7 @@ export default class Snake {
         while (this.headCoordinates.x < this.gridSize - 1 && this.headCoordinates.y < this.gridSize - 1 
                 && this.headCoordinates.x > 0 && this.headCoordinates.y > 0) {            
             this.moveSnake();
-            await timer(500);
+            await new Promise((_) => setTimeout(_, 500));
         }
     }
 
@@ -31,9 +30,16 @@ export default class Snake {
         this.headCoordinates[this.axis] += this.increment;
         findDiv(this.headCoordinates).setAttribute('class', 'column snake');
         previousSnakeHead.setAttribute('class', 'column');
+        this.checkForFoodCollision();
     }
 
-    eatFood() {
-        
+    notifyFoodCoordinates(foodCoordinates) {
+        this.foodCoordinates = foodCoordinates;
+    }
+
+    checkForFoodCollision() {
+        if (JSON.stringify(this.headCoordinates) === JSON.stringify(this.foodCoordinates)) {
+            console.log('collision');
+        }
     }
 }

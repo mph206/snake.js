@@ -3,7 +3,8 @@ import { findDiv } from "./utils.js";
 
 export default class Grid {
     grid = [];
-    constructor(gridSize, snake) {
+    foodCoordinates;
+    constructor(gridSize) {
         this.gridSize = gridSize;
         this.build();
     }
@@ -32,7 +33,7 @@ export default class Grid {
         const foodRow = freeSpace[Math.floor((Math.random() * (freeSpace.length - 1))) + 1];
         const foodY = foodRow[Math.floor((Math.random() * (foodRow.length - 1))) + 1];
         const foodX = freeSpace.indexOf(foodRow);
-        const foodCoordinate = new Coordinate(foodX, foodY);
-        findDiv(foodCoordinate).setAttribute('class', 'column food');
+        this.foodCoordinates = new Coordinate(foodX, foodY);
+        findDiv(this.foodCoordinates).setAttribute('class', 'column food');
     }
 }

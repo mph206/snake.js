@@ -23,10 +23,10 @@ document.addEventListener("keydown", async (event) => {
     }
 });
 
-// Randomly generate food
 grid.generateFood(snake.headCoordinates);
 
 // Grow snake when food eaten
+snake.notifyFoodCoordinates(grid.foodCoordinates);
 
 // Check for collissssssions with self
 
