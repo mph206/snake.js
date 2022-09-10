@@ -22,10 +22,10 @@ export default class Grid {
             canvas.appendChild(row);
             for (let j = 0; j < this.gridSize; j++) {
                 this.grid[i][j] = j;
-                const column = document.createElement("div");
-                column.setAttribute("id", `column-${j}`);
-                column.setAttribute("class", `column`);
-                row.appendChild(column);
+                const cell = document.createElement("div");
+                cell.setAttribute("id", `cell-${j}`);
+                cell.setAttribute("class", `cell`);
+                row.appendChild(cell);
             }    
         }
     }
@@ -37,6 +37,6 @@ export default class Grid {
         const foodY = foodRow[Math.floor((Math.random() * (foodRow.length - 1))) + 1];
         const foodX = freeSpace.indexOf(foodRow);
         this.foodCoordinates = new Coordinate(foodX, foodY);
-        findDiv(this.foodCoordinates).setAttribute('class', 'column food');
+        findDiv(this.foodCoordinates).setAttribute('class', 'cell food');
     }
 }

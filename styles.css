@@ -12,7 +12,7 @@
     width: 100%;
 }
 
-.column {
+.cell {
     width: 30px;
     display: flex;
     flex-direction: column;
