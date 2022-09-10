@@ -6,10 +6,12 @@ export default class Grid {
     grid = [];
     snake;
     foodCoordinates;
+    gameOver;
     constructor(gridSize) {
         this.gridSize = gridSize;
         this.build();
         this.snake = new Snake(this);
+        this.generateFood();
     }
 
     build() {
